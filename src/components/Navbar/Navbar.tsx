@@ -5,12 +5,12 @@ import { LoginModal } from "./LoginModal";
 
 export const Navbar = (): ReactElement => {
   return (
-    <Box>
       <Flex
         bgColor="black"
         justifyContent="center"
         alignItems="center"
         padding={5}
+        opacity={0.9}
       >
         <Heading
           as="h1"
@@ -24,6 +24,5 @@ export const Navbar = (): ReactElement => {
           <LoginModal />
         </Flex>
       </Flex>
-    </Box>
   );
 };
