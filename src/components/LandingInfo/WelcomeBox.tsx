@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
-import { Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Center, Divider, Flex, Heading, Image, Square, Text, theme } from "@chakra-ui/react";
+import { colors } from "../../theme";
 
 export const WelcomeBox = (): ReactElement => {
   return (
@@ -11,38 +12,49 @@ export const WelcomeBox = (): ReactElement => {
       columnGap={5}
       width="fit-content"
       margin="auto"
-      padding="7"
-      bg="blackAlpha.600"
       borderRadius="30"
-      border="2px"
-      borderColor="white"
       color="white"
       mt={10}
     >
-      <Text as="b" fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}>
-        Welcome to the best price tracking website!
-      </Text>
       <Flex
-        justifyContent="center"
-        alignItems="center"
-        mt={4}
-        flexDirection="column"
-      >
-        <Text
-          fontSize={{ base: "18px", md: "24px", lg: "30px" }}
-          minW="250px"
-          maxW="500px"
-        >
-          Here you can keep track of how prices of your favourite products
-          change over time. Sign up today and start monitoring changes!
-        </Text>
-        <Image
-          src="/rocket2.png"
-          alt="rocket"
-          height={{ base: "150px", md: "250px", lg: "350px" }}
-          width={{ base: "250px", md: "400px", lg: "550px" }}
-        />
+        width="100%"
+        height="30px"
+        alignItems="center">
+        <Divider
+          width="100px"
+          size="5px"
+          borderWidth={"1px"}
+          borderColor='#3370bb' />
+        <Text ml="4" as="b" fontSize='2xs' color={colors.primary}>WELCOME</Text>
       </Flex>
-    </Flex>
+
+      <Heading
+        size={{ base: "3xl", lg: "4xl" }}
+      >
+        Prices from space
+      </Heading>
+      <Flex
+        mt="7">
+        <Box
+          flexGrow="1"
+          width="55%"
+        />
+        <Box
+          flexGrow="1">
+
+          <Text
+            fontSize="11pt"
+            minW="250px"
+            maxW="500px"
+            align="left"
+          >
+            <b>
+              Here you can keep track of how prices of your favourite products
+              change over time. Sign up today and start monitoring changes!
+            </b>
+          </Text>
+        </Box>
+      </Flex>
+    </Flex >
   );
 };

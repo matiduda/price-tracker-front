@@ -1,6 +1,6 @@
 import { extendTheme } from '@chakra-ui/react'
 
-const colors = {
+export const colors = {
     background: '#000818',
     primary: '#FFDA59',
     secondary: '#807e1c',
@@ -14,6 +14,8 @@ const theme = extendTheme({
             body: {
                 bg: colors.background,
                 color: 'white',
+                boxShadow: "inset 0 0 200px black",
+                height: "100vh",
             },
             // styles for the `a`
             a: {
@@ -58,6 +60,7 @@ const theme = extendTheme({
     },
     fonts: {
         heading: `'Heading Font Name', serif`,
+        body: `'Open Sans', sans-serif`,
     },
 })
 
