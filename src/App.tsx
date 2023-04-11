@@ -1,20 +1,14 @@
 import { ReactElement } from "react";
-import { ParticleBackground } from "./components/Background/ParticleBackground";
-import { Footer } from "./components/Footer/Footer";
-import { FeatureBox } from "./components/LandingInfo/FeatureBox";
-import { WelcomeBox } from "./components/LandingInfo/WelcomeBox";
-import { Navbar } from "./components/Navbar/Navbar";
+import theme from "./theme";
+import { ChakraProvider } from "@chakra-ui/react";
+import { Router } from "./routes/Router";
 
 const App = (): ReactElement => {
   return (
-    <>
-      <Navbar />
-      <WelcomeBox/>
-      <FeatureBox/>
-      <Footer/>
-      <ParticleBackground/>
-    </>
-  )
+    <ChakraProvider theme={theme}>
+      <Router />
+    </ChakraProvider>
+  );
 };
 
 export default App;
