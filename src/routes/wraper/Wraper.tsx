@@ -1,8 +1,8 @@
 import { ReactElement } from "react";
 import { Outlet } from "react-router-dom";
-import { Footer } from "../../components/footer/Footer";
-import { Navbar } from "../../components/navbar/Navbar";
-import { ParticleBackground } from "../../components/background/ParticleBackground";
+import { ParticleBackground } from "../../components/Background/ParticleBackground";
+import { Footer } from "../../components/Footer/Footer";
+import { Navbar } from "../../components/Navbar/Navbar";
 
 export const Wraper = (): ReactElement => {
   return (

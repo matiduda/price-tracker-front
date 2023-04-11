@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
-import { FeatureBox } from "../../components/landingInfo/FeatureBox";
-import { WelcomeBox } from "../../components/landingInfo/WelcomeBox";
+import { FeatureBox } from "../../components/LandingInfo/FeatureBox";
+import { WelcomeBox } from "../../components/LandingInfo/WelcomeBox";
 
 const Home = (): ReactElement => {
   return (
