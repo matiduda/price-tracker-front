@@ -60,7 +60,7 @@ const theme = extendTheme({
     },
     fonts: {
         heading: `'Heading Font Name', serif`,
-        body: `'Open Sans', sans-serif`,
+        body: `'Noto Sans', sans-serif`
     },
 })
 
