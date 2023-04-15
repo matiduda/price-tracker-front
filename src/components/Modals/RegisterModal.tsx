@@ -18,11 +18,11 @@ import {
   AlertTitle,
   ModalFooter,
 } from "@chakra-ui/react";
-import { FormInput } from "../FormInput/FormInput";
 import { paths } from "../../utils/paths";
 import axios, { AxiosError } from "axios";
 import { ReactElement, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FormInput } from "../formInput/FormInput";
 
 const RegisterModal = (): ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();

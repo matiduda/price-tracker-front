@@ -1,9 +1,9 @@
 import { ReactElement, useContext, useEffect, useState } from "react";
 import { Flex } from "@chakra-ui/react";
-import RegisterModal from "./RegisterModal";
-import LoginModal from "./LoginModal";
+import LoginModal from "../Modals/LoginModal";
 import { AuthContext } from "../../api/AuthApi";
 import Logout from "./Logout";
+import RegisterModal from "../Modals/RegisterModal";
 
 export const Navbar = (): ReactElement => {
   const [authenticated, setAuthenticated] = useState(false);

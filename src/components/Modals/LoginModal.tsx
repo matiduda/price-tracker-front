@@ -17,7 +17,7 @@ import { AuthApi, AuthContext, LoginResponse } from "../../api/AuthApi";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { paths } from "../../utils/paths";
-import { FormInput } from "../FormInput/FormInput";
+import { FormInput } from "../formInput/FormInput";
 
 const LoginModal = (): ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
