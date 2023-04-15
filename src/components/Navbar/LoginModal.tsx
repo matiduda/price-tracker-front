@@ -12,26 +12,27 @@ import {
   Alert,
   AlertTitle,
 } from "@chakra-ui/react";
-import { ReactElement, useState } from "react";
-import { AuthApi, AuthResponse } from "../../api/AuthApi";
+import { ReactElement, useContext, useState } from "react";
+import { AuthApi, AuthContext, LoginResponse } from "../../api/AuthApi";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { paths } from "../../utils/paths";
-import { FormInput } from "../formInput/FormInput";
+import { FormInput } from "../FormInput/FormInput";
 
 const LoginModal = (): ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const authContext = useContext(AuthContext);
 
   const login = () => {
-    AuthApi.login(email, password)
-      .then((response: AuthResponse) => {
-        // RESPONSE IS JWT TOKEN (I THINK WE CAN STORE IT IN LOCAL STARAGE)
-        console.log(response.access_token);
+    AuthApi.login(username, password)
+      .then((response: LoginResponse) => {
+        console.log(response);
         localStorage.setItem("token", response.access_token);
+        authContext.setAuthenticated(true);
         handleClose();
         navigate(paths.user);
       })
@@ -43,7 +44,7 @@ const LoginModal = (): ReactElement => {
   };
 
   const handleClose = () => {
-    setEmail("");
+    setUsername("");
     setPassword("");
     setError("");
     onClose();
@@ -55,14 +56,20 @@ const LoginModal = (): ReactElement => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent textColor={"black"}>
-          <ModalHeader>Enter your email and password</ModalHeader>
+          <ModalHeader>Enter your username and password</ModalHeader>
           <ModalCloseButton onClick={handleClose} />
           <ModalBody pb={6}>
-            <FormInput autofocus={true} setValue={setEmail} element="Email" />
+            <FormInput
+              autofocus={true}
+              setValue={setUsername}
+              element="Username"
+              type="text"
+            />
             <FormInput
               autofocus={false}
               setValue={setPassword}
               element="Password"
+              type="password"
             />
           </ModalBody>
           {error.length === 0 ? null : (

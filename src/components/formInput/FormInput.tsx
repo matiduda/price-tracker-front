@@ -5,6 +5,7 @@ type FormInputProps = {
   element: string;
   setValue: (value: string) => void;
   autofocus: boolean;
+  type: string;
 };
 
 export const FormInput = (props: FormInputProps): ReactElement => {
@@ -15,6 +16,7 @@ export const FormInput = (props: FormInputProps): ReactElement => {
         placeholder={props.element}
         onChange={(e) => props.setValue(e.target.value)}
         autoFocus={props.autofocus}
+        type={props.type}
       />
     </FormControl>
   );
