@@ -1,6 +1,7 @@
 import { ReactElement, Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { paths } from "../utils/paths";
+import Products from "./userHome/Products";
 import { Wraper } from "./wraper/Wraper";
 
 const Home = lazy(() => import("./home/Home"));
@@ -24,6 +25,14 @@ export const Router = (): ReactElement => {
             element={
               <Suspense fallback={null}>
                 <UserHome />
+              </Suspense>
+            }
+          />
+          <Route
+            path={paths.products}
+            element={
+              <Suspense fallback={null}>
+                <Products />
               </Suspense>
             }
           />

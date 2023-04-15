@@ -1,5 +1,6 @@
 
 export const paths = {
     home: "/",
-    user: "/user"
+    user: "/user",
+    products: "/products",
 }
