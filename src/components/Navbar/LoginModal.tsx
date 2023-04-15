@@ -21,14 +21,14 @@ import { FormInput } from "../FormInput/FormInput";
 
 const LoginModal = (): ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
 
   const login = () => {
-    AuthApi.login(email, password)
+    AuthApi.login(username, password)
       .then((response: LoginResponse) => {
         console.log(response);
         localStorage.setItem("token", response.access_token);
@@ -44,7 +44,7 @@ const LoginModal = (): ReactElement => {
   };
 
   const handleClose = () => {
-    setEmail("");
+    setUsername("");
     setPassword("");
     setError("");
     onClose();
@@ -56,12 +56,12 @@ const LoginModal = (): ReactElement => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent textColor={"black"}>
-          <ModalHeader>Enter your email and password</ModalHeader>
+          <ModalHeader>Enter your username and password</ModalHeader>
           <ModalCloseButton onClick={handleClose} />
           <ModalBody pb={6}>
             <FormInput
               autofocus={true}
-              setValue={setEmail}
+              setValue={setUsername}
               element="Username"
               type="text"
             />
