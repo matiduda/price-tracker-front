@@ -4,7 +4,7 @@ import { paths } from "../utils/paths";
 import { Wraper } from "./wraper/Wraper";
 
 const Home = lazy(() => import("./home/Home"));
-const UserHome = lazy(() => import("./userHome/Products"));
+const UserHome = lazy(() => import("./userHome/UserHome"));
 
 export const Router = (): ReactElement => {
   return (

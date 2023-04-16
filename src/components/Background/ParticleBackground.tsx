@@ -10,11 +10,19 @@ export const ParticleBackground = (): ReactElement => {
     await loadFull(engine);
   }, []);
 
-  const particlesLoaded = useCallback(async (container: Container | undefined) => {
-    await console.log(container);
-  }, []);
+  const particlesLoaded = useCallback(
+    async (container: Container | undefined) => {
+      await console.log(container);
+    },
+    []
+  );
 
   return (
-    <Particles id="tsparticles" url="parcicleConfig.json" init={particlesInit} loaded={particlesLoaded} />
+    <Particles
+      id="tsparticles"
+      url="parcicleConfig.json"
+      init={particlesInit}
+      loaded={particlesLoaded}
+    />
   );
 };

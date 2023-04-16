@@ -27,7 +27,9 @@ type Props = {
 export const AuthContext = createContext<AuthInfo>(null as unknown as AuthInfo);
 
 export const AuthContextProvider = ({ children }: Props) => {
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(
+    localStorage.getItem("token") !== null
+  );
   return (
     <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
       {children}
