@@ -1,6 +1,15 @@
 import { ReactElement, useEffect, useState } from "react";
 import { ItemsApi } from "../../api/ItemsApi";
-import { Button, Flex, Select, background } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  Button,
+  Flex,
+  Select,
+} from "@chakra-ui/react";
+import { AxiosError } from "axios";
+import Chart from "../../components/Chart/Chart";
 
 type Item = {
   id: number;
@@ -9,20 +18,32 @@ type Item = {
 
 const UserHome = (): ReactElement => {
   const [items, setItems] = useState<Item[]>([]);
-  const [selectedItem, setSelectedItem] = useState<Item>({
+  const [followedItems, setFollowedItems] = useState<Item[]>([]);
+  const [error, setError] = useState<string>("");
+  const [itemToFollow, setItemToFollow] = useState<Item>({
     id: 0,
     name: "None",
   });
 
   useEffect(() => {
-    ItemsApi.getAllItems().then((response: Item[]) => {
-      setItems(response);
-    });
+    ItemsApi.getAllItems()
+      .then((response: Item[]) => {
+        setItems(response);
+        // HERE WE SET THE ITEM TO FOLLOW TO FIRST ITEM IN THE ARRAY
+        setItemToFollow(response[0]);
+      })
+      .catch((error: Error | AxiosError) => {
+        setError(error.message);
+      });
   }, []);
 
   const followItem = () => {
-    ItemsApi.followItem(selectedItem.id).then((response) => {
-      console.log(response);
+    ItemsApi.followItem(itemToFollow.id).then((response) => {
+      // RESPONSE IS NOT RELEVEANT
+      setFollowedItems([...followedItems, itemToFollow]);
+    }).catch((error: Error | AxiosError) => {
+      console.log(itemToFollow)
+      setError(error.message);
     });
   };
 
@@ -36,10 +57,9 @@ const UserHome = (): ReactElement => {
       <Flex>
         {items.length === 0 ? null : (
           <Select
-            placeholder="Select product to follow"
             bg={"black"}
             onChange={(e) =>
-              setSelectedItem({
+              setItemToFollow({
                 id: findItemIdByName(e.target.value),
                 name: e.target.value,
               })
@@ -57,6 +77,21 @@ const UserHome = (): ReactElement => {
           </Select>
         )}
         <Button onClick={followItem}>Follow</Button>
+      </Flex>
+      <Flex
+        direction={"column"}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        {followedItems.map((item: Item) => (
+          <Chart key={item.id} item={item} />
+        ))}
+        {error.length === 0 ? null : (
+          <Alert status="error">
+            <AlertIcon />
+            <AlertTitle>{error}</AlertTitle>
+          </Alert>
+        )}
       </Flex>
     </>
   );

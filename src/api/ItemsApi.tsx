@@ -1,9 +1,13 @@
 import { allItems, followItem, itemPrices } from "../utils/endpoints";
 import { api } from "./axios/Api";
 
+const createHeaders = (): object => {
+  return { Authorization: `Bearer ${localStorage.getItem("token")}` };
+};
+
 export const ItemsApi = {
   getAllItems: async () => {
-    const response = await api.get(allItems);
+    const response = await api.get(allItems, { headers: createHeaders() });
     return response.data;
   },
 
@@ -12,15 +16,17 @@ export const ItemsApi = {
       params: {
         item_id: itemId,
       },
+      headers: createHeaders(),
     });
     return response.data;
   },
 
   followItem: async (itemId: number) => {
-    // THROWS 422 :(
-    const response = await api.post(followItem, {
-      item_id: itemId,
-    });
+    const response = await api.post(
+      followItem,
+      { item_id: itemId },
+      { headers: createHeaders() }
+    );
     return response.data;
   },
 };
