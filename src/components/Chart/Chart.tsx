@@ -72,30 +72,10 @@ const Chart = ({ item }: Props): ReactElement => {
     });
   }, []);
 
+  // THIS IS FOR CHART STYLING
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
-    scales: {
-      y: {
-        ticks: {
-          color: "white",
-          margin: 20,
-          font: {
-            size: 18,
-          },
-          beginAtZero: true,
-        },
-      },
-      x: {
-        ticks: {
-          color: "white",
-          font: {
-            size: 18,
-          },
-          beginAtZero: true,
-        },
-      },
-    },
     plugins: {
       legend: {
         display: false,
