@@ -1,4 +1,10 @@
-import { allItems, followItem, itemPrices, unfollowItem } from "../utils/endpoints";
+import {
+  allFollowedItems,
+  allItems,
+  followItem,
+  itemPrices,
+  unfollowItem,
+} from "../utils/endpoints";
 import { api } from "./axios/Api";
 
 const createHeaders = (): object => {
@@ -8,6 +14,13 @@ const createHeaders = (): object => {
 export const ItemsApi = {
   getAllItems: async () => {
     const response = await api.get(allItems, { headers: createHeaders() });
+    return response.data;
+  },
+
+  getAllFollowedItems: async () => {
+    const response = await api.get(allFollowedItems, {
+      headers: createHeaders(),
+    });
     return response.data;
   },
 

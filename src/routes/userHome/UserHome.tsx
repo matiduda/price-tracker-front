@@ -1,9 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
 import { ItemsApi } from "../../api/ItemsApi";
 import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
   Button,
   Flex,
   Select,
@@ -19,12 +16,12 @@ type Item = {
 const UserHome = (): ReactElement => {
   const [items, setItems] = useState<Item[]>([]);
   const [followedItems, setFollowedItems] = useState<Item[]>([]);
-  const [error, setError] = useState<string>("");
   const [itemToFollow, setItemToFollow] = useState<Item>({
     id: 0,
     name: "None",
   });
 
+  // THIS GETS ALL ITEMS AVAILABLE FOR SELECTION
   useEffect(() => {
     ItemsApi.getAllItems()
       .then((response: Item[]) => {
@@ -33,7 +30,21 @@ const UserHome = (): ReactElement => {
         setItemToFollow(response[0]);
       })
       .catch((error: Error | AxiosError) => {
-        setError(error.message);
+        console.log(error.message);
+      });
+  }, []);
+
+  // THIS GETS ALL ITEMS THAT USER IS FOLLOWING ALREADY
+  useEffect(() => {
+    ItemsApi.getAllFollowedItems()
+      .then((response: Item[]) => {
+        // THIS WORKS, DON'T WORRY ABOUT THE ERROR :)
+        // WILL HAVE TO DELETE IT AFTER BACKEND FIXES
+        response.forEach(item => delete Object.assign(item, {["id"]: item["item_id"] })["item_id"]);
+        setFollowedItems(response);
+      })
+      .catch((error: Error | AxiosError) => {
+        console.log(error.message);
       });
   }, []);
 
@@ -42,15 +53,24 @@ const UserHome = (): ReactElement => {
       // RESPONSE IS NOT RELEVEANT
       setFollowedItems([...followedItems, itemToFollow]);
     }).catch((error: Error | AxiosError) => {
-      console.log(itemToFollow)
-      setError(error.message);
+      console.log(error.message);
     });
   };
+
+  const unfollowItem = (itemId: number): void => {
+    ItemsApi.unfollowItem(itemId)
+    .then((response: Item) => {
+      // RESPONSE IS IRRELEVANT
+      setFollowedItems(followedItems.filter(item => item.id !== itemId));
+    }).catch((error: Error | AxiosError) => {
+      console.log(error.message);
+    });
+  }; 
 
   const findItemIdByName = (name: string): number => {
     const item: Item | undefined = items.find((item) => item.name === name);
     return item === undefined ? 0 : item.id;
-  };
+  }; 
 
   return (
     <>
@@ -70,6 +90,7 @@ const UserHome = (): ReactElement => {
                 style={{ background: "black" }}
                 value={item.name}
                 key={item.id}
+                disabled={followedItems.map(item => item.id).includes(item.id)}
               >
                 {item.name}
               </option>
@@ -84,14 +105,11 @@ const UserHome = (): ReactElement => {
         justifyContent={"center"}
       >
         {followedItems.map((item: Item) => (
-          <Chart key={item.id} item={item} />
+            <Flex key={`Flex${item.id}`} width={"60%"} height={"400px"} m={10} alignItems={"center"} justifyContent={"center"} direction={"column"}>
+              <Chart key={`Chart${item.id}`} item={item} />
+              <Button key={`Button${item.id}`} padding={"10px"} onClick={() => unfollowItem(item.id)}>Unfollow</Button>
+            </Flex>
         ))}
-        {error.length === 0 ? null : (
-          <Alert status="error">
-            <AlertIcon />
-            <AlertTitle>{error}</AlertTitle>
-          </Alert>
-        )}
       </Flex>
     </>
   );

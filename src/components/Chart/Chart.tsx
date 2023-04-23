@@ -11,7 +11,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Box } from "@chakra-ui/react";
+import { Flex, Button } from "@chakra-ui/react";
 
 ChartJS.register(
   CategoryScale,
@@ -51,6 +51,7 @@ const Chart = ({ item }: Props): ReactElement => {
   });
 
   useEffect(() => {
+    console.log(item);
     ItemsApi.getPricesForItem(item.id).then((response: PriceResponse[]) => {
       response = response.sort(
         (first: PriceResponse, second: PriceResponse) =>
@@ -61,7 +62,6 @@ const Chart = ({ item }: Props): ReactElement => {
         datasets: [
           {
             data: response.map((price: PriceResponse) => price.price),
-            fill: true,
             borderColor: "rgb(0, 255, 255)",
             borderWidth: 2,
             backgroundColor: "rgb(255, 99, 132)",
@@ -86,7 +86,7 @@ const Chart = ({ item }: Props): ReactElement => {
         font: {
           size: 22,
         },
-        text: item.name.toUpperCase(),
+        text: "name" in item ? item.name : "# Title waiting for backend fix #",
       },
     },
   };
@@ -94,9 +94,7 @@ const Chart = ({ item }: Props): ReactElement => {
   return data.datasets === null ? (
     <h1>Loadig chart ...</h1>
   ) : (
-    <Box width={"60%"} height={"400px"} m={6}>
-      <Line options={chartOptions} data={data} />
-    </Box>
+    <Line options={chartOptions} data={data} />
   );
 };
 
