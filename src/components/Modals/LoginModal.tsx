@@ -30,7 +30,6 @@ const LoginModal = (): ReactElement => {
   const login = () => {
     AuthApi.login(username, password)
       .then((response: LoginResponse) => {
-        console.log(response);
         localStorage.setItem("token", response.access_token);
         authContext.setAuthenticated(true);
         handleClose();
