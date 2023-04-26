@@ -5,7 +5,7 @@ import Products from "./userHome/Products";
 import { Wraper } from "./wraper/Wraper";
 
 const Home = lazy(() => import("./home/Home"));
-const UserHome = lazy(() => import("./userHome/Products"));
+const UserHome = lazy(() => import("./userHome/UserHome"));
 
 export const Router = (): ReactElement => {
   return (

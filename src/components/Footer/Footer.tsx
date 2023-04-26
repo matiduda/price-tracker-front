@@ -4,11 +4,9 @@ import { Flex, Text } from "@chakra-ui/react";
 export const Footer = (): ReactElement => {
   return (
     <Flex
-      height="200px"
+      height="50px"
       color="white"
-      opacity={0.9}
       mt={10}
-      bgColor="black"
       padding={5}
       alignItems="center"
       justifyContent="center"

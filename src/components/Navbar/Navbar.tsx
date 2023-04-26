@@ -14,17 +14,21 @@ export const Navbar = (): ReactElement => {
   }, [authContext]);
 
   return (
-    <Flex justifyContent="center" alignItems="center" padding={5} opacity={0.9}>
-      <Flex marginLeft="auto" columnGap={5}>
-        {authenticated ? (
-          <Logout />
-        ) : (
-          <>
-            <RegisterModal />
-            <LoginModal />
-          </>
-        )}
-      </Flex>
+    <Flex
+      justifyContent="right"
+      opacity={0.9}
+      columnGap={5}
+      position="absolute"
+      right={0}
+      padding={3}>
+      {authenticated ? (
+        <Logout />
+      ) : (
+        <>
+          <RegisterModal />
+          <LoginModal />
+        </>
+      )}
     </Flex>
   );
 };
