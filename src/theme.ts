@@ -33,14 +33,6 @@ const theme = extendTheme({
             baseStyle: {
                 fontWeight: 'bold', // Normally, it is "semibold"
             },
-            // 2. We can add a new button size or extend existing
-            sizes: {
-                xl: {
-                    h: '56px',
-                    fontSize: 'lg',
-                    px: '32px',
-                },
-            },
             // 3. We can add a new visual variant
             variants: {
                 'default-variant': {

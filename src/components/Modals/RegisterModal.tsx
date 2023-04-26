@@ -72,7 +72,7 @@ const RegisterModal = (): ReactElement => {
   return (
     <>
       <Button onClick={onOpen}>Sign up</Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent textColor={"black"}>
           <ModalHeader>Create an account</ModalHeader>

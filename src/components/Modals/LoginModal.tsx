@@ -53,7 +53,7 @@ const LoginModal = (): ReactElement => {
   return (
     <>
       <Button onClick={onOpen}>Log in</Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent textColor={"black"}>
           <ModalHeader>Enter your username and password</ModalHeader>

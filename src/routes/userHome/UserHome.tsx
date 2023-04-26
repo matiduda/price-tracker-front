@@ -4,6 +4,7 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
+  Box,
   Button,
   Flex,
   Select,
@@ -53,7 +54,8 @@ const UserHome = (): ReactElement => {
   };
 
   return (
-    <>
+    <Box height="90vh">
+      <Box height="100px" />
       <Flex>
         {items.length === 0 ? null : (
           <Select
@@ -93,7 +95,7 @@ const UserHome = (): ReactElement => {
           </Alert>
         )}
       </Flex>
-    </>
+    </Box>
   );
 };
 

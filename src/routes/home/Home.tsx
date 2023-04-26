@@ -6,7 +6,6 @@ const Home = (): ReactElement => {
   return (
     <>
       <WelcomeBox />
-      <FeatureBox />
     </>
   );
 };
