@@ -50,13 +50,13 @@ const RegisterModal = (): ReactElement => {
           })
           .catch((error: Error | AxiosError) => {
             if (axios.isAxiosError(error)) {
-              setError(error.message);
+              setError("Failed to log in");
             }
           });
       })
       .catch((error: Error | AxiosError) => {
         if (axios.isAxiosError(error)) {
-          setError(error.message);
+          setError("Email taken");
         }
       });
   };

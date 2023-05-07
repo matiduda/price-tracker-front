@@ -1,72 +1,70 @@
 import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-} from 'chart.js';
-import {
-    Box,
-} from "@chakra-ui/react";
-import { ReactElement } from 'react';
-import { Line } from 'react-chartjs-2';
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Box } from "@chakra-ui/react";
+import { ReactElement } from "react";
+import { Line } from "react-chartjs-2";
 
 ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
 );
 
 export const options = {
-    responsive: true,
-    plugins: {
-        legend: {
-            position: 'top' as const,
-        },
-        title: {
-            display: true,
-            text: 'Chart.js Line Chart',
-        },
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "top" as const,
     },
+    title: {
+      display: true,
+      text: "Chart.js Line Chart",
+    },
+  },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+const labels = ["January", "February", "March", "April", "May", "June", "July"];
 
 export const data = {
-    labels,
-    datasets: [
-        {
-            label: 'Dataset 1',
-            data: labels.map(() => Math.random() * 1000),
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        },
-        {
-            label: 'Dataset 2',
-            data: labels.map(() => Math.random() * 1000),
-            borderColor: 'rgb(53, 162, 235)',
-            backgroundColor: 'rgba(53, 162, 235, 0.5)',
-        },
-    ],
+  labels,
+  datasets: [
+    {
+      label: "Dataset 1",
+      data: labels.map(() => Math.random() * 1000),
+      borderColor: "rgb(255, 99, 132)",
+      backgroundColor: "rgba(255, 99, 132, 0.5)",
+    },
+    {
+      label: "Dataset 2",
+      data: labels.map(() => Math.random() * 1000),
+      borderColor: "rgb(53, 162, 235)",
+      backgroundColor: "rgba(53, 162, 235, 0.5)",
+    },
+  ],
 };
 
 const style = {
-    'background': "white",
-    'width': "600px",
-    'height': "300px",
-}
+  background: "white",
+  width: "600px",
+  height: "300px",
+};
 
 export const Plot = (): ReactElement => {
-    return (
-        <Box style={style}>
-            <Line options={options} data={data} />
-        </Box>
-    );
-}
+  return (
+    <Box style={style}>
+      <Line options={options} data={data} />
+    </Box>
+  );
+};
