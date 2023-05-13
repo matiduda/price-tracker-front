@@ -86,13 +86,13 @@ const Chart = ({ item }: Props): ReactElement => {
         font: {
           size: 22,
         },
-        text: "name" in item ? item.name : "# Title waiting for backend fix #",
+        text: item.name.toUpperCase(),
       },
     },
   };
 
   return data.datasets === null ? (
-    <h1>Loadig chart ...</h1>
+    <h1>Loading chart ...</h1>
   ) : (
     <Line options={chartOptions} data={data} />
   );

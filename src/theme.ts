@@ -15,7 +15,7 @@ const theme = extendTheme({
                 bg: colors.background,
                 color: 'white',
                 boxShadow: "inset 0 0 200px black",
-                height: "100vh",
+                minH: "100vh",
             },
             // styles for the `a`
             a: {

@@ -13,7 +13,9 @@ const Logout = (): ReactElement => {
   };
 
   return (
-    <Button onClick={handleLogout}>Log out</Button>
+    <Link to={paths.home}>
+      <Button onClick={handleLogout}>Log out</Button>
+    </Link>
   );
 };
 

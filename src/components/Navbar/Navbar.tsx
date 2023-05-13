@@ -18,9 +18,9 @@ export const Navbar = (): ReactElement => {
       justifyContent="right"
       opacity={0.9}
       columnGap={5}
-      position="absolute"
       right={0}
-      padding={3}>
+      padding={3}
+    >
       {authenticated ? (
         <Logout />
       ) : (

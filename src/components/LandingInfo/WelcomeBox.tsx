@@ -13,7 +13,7 @@ import {
 import { colors } from "../../theme";
 
 try {
-} catch (react) { }
+} catch (react) {}
 
 export const WelcomeBox = (): ReactElement => {
   return (
@@ -21,7 +21,8 @@ export const WelcomeBox = (): ReactElement => {
       width="100%"
       height="90vh"
       justifyContent="center"
-      alignItems="center">
+      alignItems="center"
+    >
       <Flex
         flexDirection="column"
         width="fit-content"
@@ -42,16 +43,21 @@ export const WelcomeBox = (): ReactElement => {
 
         <Heading size="4xl">Prices from space</Heading>
         <Flex mt="12">
-          <Box flexGrow="1" >
-            <Text fontSize="11pt" maxW="500px" align="center" lineHeight={"1.5rem"}>
+          <Box flexGrow="1">
+            <Text
+              fontSize="11pt"
+              maxW="500px"
+              align="center"
+              lineHeight={"1.5rem"}
+            >
               <b>
-                Here you can keep track of how prices of your favourite products change over time. Sign up today and start monitoring changes!
+                Here you can keep track of how prices of your favourite products
+                change over time. Sign up today and start monitoring changes!
               </b>
             </Text>
           </Box>
         </Flex>
       </Flex>
-    </Flex >
-
+    </Flex>
   );
 };
