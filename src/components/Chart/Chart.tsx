@@ -11,7 +11,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Flex, Button } from "@chakra-ui/react";
+import { Flex, Button, Box } from "@chakra-ui/react";
 
 ChartJS.register(
   CategoryScale,
@@ -82,9 +82,9 @@ const Chart = ({ item }: Props): ReactElement => {
       },
       title: {
         display: true,
-        color: "white",
+        color: "black",
         font: {
-          size: 22,
+          size: 15,
         },
         text: item.name.toUpperCase(),
       },
@@ -94,7 +94,14 @@ const Chart = ({ item }: Props): ReactElement => {
   return data.datasets === null ? (
     <h1>Loading chart ...</h1>
   ) : (
-    <Line options={chartOptions} data={data} />
+    <Box width="100%" height="100%" sx={{
+      backgroundColor: "#FFFFFF",
+      borderRadius: "14px",
+      padding: "20px",
+    }}>
+
+      <Line options={chartOptions} data={data} />
+    </Box>
   );
 };
 

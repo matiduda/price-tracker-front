@@ -109,9 +109,10 @@ const UserHome = (): ReactElement => {
       <Flex
         mt={7}
         minH={"50vh"}
-        direction={"column"}
+        direction={"row"}
         alignItems={"center"}
         justifyContent={"center"}
+        flexWrap="wrap"
       >
         {followedItems.length === 0 ? (
           <Text fontSize={"30pt"}>No followed items</Text>
@@ -119,8 +120,9 @@ const UserHome = (): ReactElement => {
           followedItems.map((item: Item) => (
             <Flex
               key={`Flex${item.id}`}
-              width={"60%"}
-              height={"400px"}
+              maxWidth={"50%"}
+              height="400px"
+              width="500px"
               rowGap={5}
               m={10}
               alignItems={"center"}
