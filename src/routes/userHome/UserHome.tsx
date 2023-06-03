@@ -1,8 +1,18 @@
 import { ReactElement, useEffect, useState } from "react";
 import { ItemsApi } from "../../api/ItemsApi";
-import { Box, Button, Flex, Text, Select } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Text,
+  Select,
+  Input,
+  InputGroup,
+  InputLeftElement,
+} from "@chakra-ui/react";
 import { AxiosError } from "axios";
 import Chart from "../../components/Chart/Chart";
+import { SearchIcon } from "@chakra-ui/icons";
 
 type Item = {
   id: number;
@@ -16,13 +26,12 @@ const UserHome = (): ReactElement => {
     id: 0,
     name: "None",
   });
+  const [searchPhrase, setSearchPhrase] = useState<string>("");
 
-  // THIS GETS ALL ITEMS AVAILABLE FOR SELECTION
   useEffect(() => {
     ItemsApi.getAllItems()
       .then((response: Item[]) => {
         setItems(response);
-        // HERE WE SET THE ITEM TO FOLLOW TO FIRST ITEM IN THE ARRAY
         setItemToFollow(response[0]);
       })
       .catch((error: Error | AxiosError) => {
@@ -30,7 +39,6 @@ const UserHome = (): ReactElement => {
       });
   }, []);
 
-  // THIS GETS ALL ITEMS THAT USER IS FOLLOWING ALREADY
   useEffect(() => {
     ItemsApi.getAllFollowedItems()
       .then((response: Item[]) => {
@@ -47,7 +55,6 @@ const UserHome = (): ReactElement => {
     }
     ItemsApi.followItem(itemToFollow.id)
       .then((response) => {
-        // RESPONSE IS NOT RELEVEANT
         setFollowedItems([...followedItems, itemToFollow]);
       })
       .catch((error: Error | AxiosError) => {
@@ -58,7 +65,6 @@ const UserHome = (): ReactElement => {
   const unfollowItem = (itemId: number): void => {
     ItemsApi.unfollowItem(itemId)
       .then((response: Item) => {
-        // RESPONSE IS IRRELEVANT
         setFollowedItems(followedItems.filter((item) => item.id !== itemId));
       })
       .catch((error: Error | AxiosError) => {
@@ -74,7 +80,28 @@ const UserHome = (): ReactElement => {
   return (
     <Box minH={"100vh"}>
       <Flex
-        mt={3}
+        my={5}
+        columnGap={5}
+        mx={"auto"}
+        px={8}
+        align={"center"}
+        w={{ base: "90%", md: "70%", lg: "50%" }}
+      >
+        <InputGroup>
+          <InputLeftElement
+            pointerEvents="none"
+            children={<SearchIcon color="gray.300" />}
+          />
+          <Input
+            type={"text"}
+            bg={"black"}
+            color={"white"}
+            placeholder={"Search product"}
+            onChange={(e) => setSearchPhrase(e.target.value)}
+          />
+        </InputGroup>
+      </Flex>
+      <Flex
         columnGap={5}
         mx={"auto"}
         px={8}
@@ -107,9 +134,11 @@ const UserHome = (): ReactElement => {
         <Button onClick={followItem}>Follow</Button>
       </Flex>
       <Flex
-        mt={7}
+        mt={10}
+        p={5}
         minH={"50vh"}
         direction={"row"}
+        columnGap={5}
         alignItems={"center"}
         justifyContent={"center"}
         flexWrap="wrap"
@@ -117,28 +146,29 @@ const UserHome = (): ReactElement => {
         {followedItems.length === 0 ? (
           <Text fontSize={"30pt"}>No followed items</Text>
         ) : (
-          followedItems.map((item: Item) => (
-            <Flex
-              key={`Flex${item.id}`}
-              maxWidth={"50%"}
-              height="400px"
-              width="500px"
-              rowGap={5}
-              m={10}
-              alignItems={"center"}
-              justifyContent={"center"}
-              direction={"column"}
-            >
-              <Chart key={`Chart${item.id}`} item={item} />
-              <Button
-                key={`Button${item.id}`}
-                padding={"10px"}
-                onClick={() => unfollowItem(item.id)}
+          followedItems
+            .filter((item: Item) =>
+              item.name.toLowerCase().includes(searchPhrase.toLowerCase())
+            )
+            .map((item: Item) => (
+              <Flex
+                key={`Flex${item.id}`}
+                maxWidth={"50%"}
+                height="400px"
+                width="500px"
+                rowGap={5}
+                m={12}
+                alignItems={"center"}
+                justifyContent={"center"}
+                direction={"column"}
               >
-                Unfollow
-              </Button>
-            </Flex>
-          ))
+                <Chart
+                  key={`Chart${item.id}`}
+                  item={item}
+                  unfollowItem={unfollowItem}
+                />
+              </Flex>
+            ))
         )}
       </Flex>
     </Box>
