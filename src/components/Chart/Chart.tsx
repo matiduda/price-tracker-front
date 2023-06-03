@@ -51,6 +51,7 @@ const Chart = ({ item, unfollowItem }: Props): ReactElement => {
     datasets: null,
   });
   const [scale, setScale] = useState<number>(1);
+  let test = false;
 
   useEffect(() => {
     ItemsApi.getPricesForItem(item.id).then((response: PriceResponse[]) => {
@@ -69,6 +70,7 @@ const Chart = ({ item, unfollowItem }: Props): ReactElement => {
           },
         ],
       };
+      test = true;
       setData(data);
     });
   }, []);
@@ -96,8 +98,8 @@ const Chart = ({ item, unfollowItem }: Props): ReactElement => {
     <h1>Loading chart ...</h1>
   ) : (
     <Flex
-      width="100%"
-      height="100%"
+      width="500px"
+      height="400px"
       sx={{
         backgroundColor: "#FFFFFF",
         borderRadius: "14px",
@@ -110,6 +112,7 @@ const Chart = ({ item, unfollowItem }: Props): ReactElement => {
       justify={"center"}
       align={"center"}
       rowGap={3}
+      m={12}
       onClick={() => setScale(scale === 1 ? 1.4 : 1)}
       onMouseLeave={() => setScale(1)}
     >

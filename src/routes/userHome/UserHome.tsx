@@ -9,6 +9,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Heading,
 } from "@chakra-ui/react";
 import { AxiosError } from "axios";
 import Chart from "../../components/Chart/Chart";
@@ -55,6 +56,7 @@ const UserHome = (): ReactElement => {
     }
     ItemsApi.followItem(itemToFollow.id)
       .then((response) => {
+        setSearchPhrase("");
         setFollowedItems([...followedItems, itemToFollow]);
       })
       .catch((error: Error | AxiosError) => {
@@ -77,14 +79,24 @@ const UserHome = (): ReactElement => {
     return item === undefined ? 0 : item.id;
   };
 
+  const getFilteredItemsBySearchPhrase = (): Item[] => {
+    return followedItems.filter((item: Item) =>
+      item.name.toLowerCase().includes(searchPhrase.toLowerCase())
+    );
+  };
+
   return (
     <Box minH={"100vh"}>
+      <Flex justify={"center"}>
+        <Heading size="4xl">Prices from space</Heading>
+      </Flex>
       <Flex
         my={5}
         columnGap={5}
         mx={"auto"}
         px={8}
         align={"center"}
+        direction={"column"}
         w={{ base: "90%", md: "70%", lg: "50%" }}
       >
         <InputGroup>
@@ -97,6 +109,7 @@ const UserHome = (): ReactElement => {
             bg={"black"}
             color={"white"}
             placeholder={"Search product"}
+            value={searchPhrase}
             onChange={(e) => setSearchPhrase(e.target.value)}
           />
         </InputGroup>
@@ -143,32 +156,12 @@ const UserHome = (): ReactElement => {
         justifyContent={"center"}
         flexWrap="wrap"
       >
-        {followedItems.length === 0 ? (
-          <Text fontSize={"30pt"}>No followed items</Text>
+        {getFilteredItemsBySearchPhrase().length === 0 ? (
+          <Text fontSize={"30pt"}>No items found</Text>
         ) : (
-          followedItems
-            .filter((item: Item) =>
-              item.name.toLowerCase().includes(searchPhrase.toLowerCase())
-            )
-            .map((item: Item) => (
-              <Flex
-                key={`Flex${item.id}`}
-                maxWidth={"50%"}
-                height="400px"
-                width="500px"
-                rowGap={5}
-                m={12}
-                alignItems={"center"}
-                justifyContent={"center"}
-                direction={"column"}
-              >
-                <Chart
-                  key={`Chart${item.id}`}
-                  item={item}
-                  unfollowItem={unfollowItem}
-                />
-              </Flex>
-            ))
+          getFilteredItemsBySearchPhrase().map((item: Item) => (
+            <Chart key={item.id} item={item} unfollowItem={unfollowItem} />
+          ))
         )}
       </Flex>
     </Box>
