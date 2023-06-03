@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { paths } from "../utils/paths";
 import Products from "./userHome/Products";
 import { Wraper } from "./wraper/Wraper";
+import Subscription from "./subscription/Subscription";
 
 const Home = lazy(() => import("./home/Home"));
 const UserHome = lazy(() => import("./userHome/UserHome"));
@@ -33,6 +34,14 @@ export const Router = (): ReactElement => {
             element={
               <Suspense fallback={null}>
                 <Products />
+              </Suspense>
+            }
+          />
+          <Route
+            path={paths.subscription}
+            element={
+              <Suspense fallback={null}>
+                <Subscription />
               </Suspense>
             }
           />
