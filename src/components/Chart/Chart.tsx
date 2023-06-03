@@ -51,7 +51,6 @@ const Chart = ({ item, unfollowItem }: Props): ReactElement => {
     datasets: null,
   });
   const [scale, setScale] = useState<number>(1);
-  let test = false;
 
   useEffect(() => {
     ItemsApi.getPricesForItem(item.id).then((response: PriceResponse[]) => {
@@ -70,7 +69,6 @@ const Chart = ({ item, unfollowItem }: Props): ReactElement => {
           },
         ],
       };
-      test = true;
       setData(data);
     });
   }, []);
