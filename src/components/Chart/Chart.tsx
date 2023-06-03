@@ -30,6 +30,7 @@ type Item = {
 
 type Props = {
   item: Item;
+  unfollowItem: (itemId: number) => void;
 };
 
 type PriceResponse = {
@@ -44,14 +45,14 @@ type ChartData = {
   datasets: any;
 };
 
-const Chart = ({ item }: Props): ReactElement => {
+const Chart = ({ item, unfollowItem }: Props): ReactElement => {
   const [data, setData] = useState<ChartData>({
     labels: [],
     datasets: null,
   });
+  const [scale, setScale] = useState<number>(1);
 
   useEffect(() => {
-    console.log(item);
     ItemsApi.getPricesForItem(item.id).then((response: PriceResponse[]) => {
       response = response.sort(
         (first: PriceResponse, second: PriceResponse) =>
@@ -94,14 +95,36 @@ const Chart = ({ item }: Props): ReactElement => {
   return data.datasets === null ? (
     <h1>Loading chart ...</h1>
   ) : (
-    <Box width="100%" height="100%" sx={{
-      backgroundColor: "#FFFFFF",
-      borderRadius: "14px",
-      padding: "20px",
-    }}>
-
-      <Line options={chartOptions} data={data} />
-    </Box>
+    <Flex
+      width="500px"
+      height="400px"
+      sx={{
+        backgroundColor: "#FFFFFF",
+        borderRadius: "14px",
+        padding: "20px",
+      }}
+      _hover={{ cursor: "pointer" }}
+      transform={`scale(${scale})`}
+      transition={"ease-in-out 1s all"}
+      direction={"column"}
+      justify={"center"}
+      align={"center"}
+      rowGap={3}
+      m={12}
+      onClick={() => setScale(scale === 1 ? 1.4 : 1)}
+      onMouseLeave={() => setScale(1)}
+    >
+      <Box width="100%" height="90%">
+        <Line options={chartOptions} data={data} />
+      </Box>
+      <Button
+        padding={"10px"}
+        width={"fit-content"}
+        onClick={() => unfollowItem(item.id)}
+      >
+        Unfollow
+      </Button>
+    </Flex>
   );
 };
 

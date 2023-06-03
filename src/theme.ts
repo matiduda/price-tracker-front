@@ -16,6 +16,9 @@ const theme = extendTheme({
                 color: 'white',
                 boxShadow: "inset 0 0 200px black",
                 minH: "100vh",
+                "&::-webkit-scrollbar": {
+                    width: 0,
+                },
             },
             // styles for the `a`
             a: {

@@ -37,7 +37,7 @@ const LoginModal = (): ReactElement => {
       })
       .catch((error: Error | AxiosError) => {
         if (axios.isAxiosError(error)) {
-          setError("Email taken");
+          setError("Incorrect username or password");
         }
       });
   };
