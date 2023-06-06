@@ -18,6 +18,7 @@ import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { paths } from "../../utils/paths";
 import { FormInput } from "../formInput/FormInput";
+import { Subscription, SubscriptionApi } from "../../api/SubscriptionApi";
 
 const LoginModal = (): ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -29,11 +30,19 @@ const LoginModal = (): ReactElement => {
 
   const login = () => {
     AuthApi.login(username, password)
-      .then((response: LoginResponse) => {
-        localStorage.setItem("token", response.access_token);
+      .then((loginResponse: LoginResponse) => {
+        localStorage.setItem("token", loginResponse.access_token);
         authContext.setAuthenticated(true);
-        handleClose();
-        navigate(paths.user);
+        SubscriptionApi.getSubscription()
+          .then((subscription: Subscription) => {
+            handleClose();
+            navigate(subscription === null ? paths.subscription : paths.user);
+          })
+          .catch((error: Error | AxiosError) => {
+            if (axios.isAxiosError(error)) {
+              setError("Error while fetching subscription info");
+            }
+          });
       })
       .catch((error: Error | AxiosError) => {
         if (axios.isAxiosError(error)) {

@@ -14,6 +14,7 @@ import {
 import { AxiosError } from "axios";
 import Chart from "../../components/Chart/Chart";
 import { SearchIcon } from "@chakra-ui/icons";
+import { Subscription, SubscriptionApi } from "../../api/SubscriptionApi";
 
 type Item = {
   id: number;
@@ -28,6 +29,7 @@ const UserHome = (): ReactElement => {
     name: "None",
   });
   const [searchPhrase, setSearchPhrase] = useState<string>("");
+  const [subscriptionEndDate, setSubscriptionEndDate] = useState<Date>();
 
   useEffect(() => {
     ItemsApi.getAllItems()
@@ -44,6 +46,16 @@ const UserHome = (): ReactElement => {
     ItemsApi.getAllFollowedItems()
       .then((response: Item[]) => {
         setFollowedItems(response);
+      })
+      .catch((error: Error | AxiosError) => {
+        console.log(error.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    SubscriptionApi.getSubscription()
+      .then((subscription: Subscription) => {
+        setSubscriptionEndDate(subscription.end_date);
       })
       .catch((error: Error | AxiosError) => {
         console.log(error.message);
@@ -99,6 +111,9 @@ const UserHome = (): ReactElement => {
         direction={"column"}
         w={{ base: "90%", md: "70%", lg: "50%" }}
       >
+        <Text padding={5} color="green.300">
+          Your subscription is valid till: {subscriptionEndDate?.toString()}
+        </Text>
         <InputGroup>
           <InputLeftElement
             pointerEvents="none"
