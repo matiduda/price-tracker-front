@@ -7,46 +7,23 @@ import {
   Text,
   Flex,
 } from "@chakra-ui/react";
-import { SubscriptionType } from "../../routes/subscription/Subscription";
-import { SubscriptionApi } from "../../api/SubscriptionApi";
-import { useNavigate } from "react-router-dom";
-import { paths } from "../../utils/paths";
-import { AxiosError } from "axios";
+import { SubscriptionType, SubscriptionInfoType } from "../../routes/subscription/Subscription";
 
 const CARD_WIDTH = 300;
 
 type SubscriptionInfoPropsType = {
-  type: SubscriptionType;
-  heading: string;
-  price: number;
-  months: number;
+  details: SubscriptionInfoType,
   children: ReactElement;
+  onSelect: (info: SubscriptionInfoType) => void;
+  active: boolean;
 };
 
 const SubscriptionInfo = (props: SubscriptionInfoPropsType): ReactElement => {
-  const navigate = useNavigate();
-
-  const selectSubscription = () => {
-    console.log(
-      `selected subscription: ${props.heading}, of type ${props.type}. amount to charge: ${props.price}`
-    );
-    // THIS WILL BE INVOKED AFTER SUCCESSFULL PAYPAL TRANSACTION
-    onPaypalTransactionFinished();
-  };
-
-  const onPaypalTransactionFinished = () => {
-    SubscriptionApi.createSubscription(props.months)
-      .then((response: string) => {
-        navigate(paths.user);
-      })
-      .catch((error: Error | AxiosError) => {
-        console.log(error.message);
-      });
-  };
+  const setBackgroundColor = () => props.active ? "#CBD5E0" : "white";
 
   return (
     <>
-      <Card maxW={CARD_WIDTH}>
+      <Card maxW={CARD_WIDTH} bgColor={setBackgroundColor()}>
         <CardBody>
           <Text
             textAlign={"center"}
@@ -55,7 +32,7 @@ const SubscriptionInfo = (props: SubscriptionInfoPropsType): ReactElement => {
               fontSize: "20px",
             }}
           >
-            {props.heading}
+            {props.details.heading}
           </Text>
           <Text
             textAlign={"center"}
@@ -65,7 +42,7 @@ const SubscriptionInfo = (props: SubscriptionInfoPropsType): ReactElement => {
             }}
             mt={3}
           >
-            {props.price / props.months} $
+            {props.details.price / props.details.months} $
           </Text>
           <Text textAlign={"center"} mb={6}>
             per month
@@ -74,7 +51,7 @@ const SubscriptionInfo = (props: SubscriptionInfoPropsType): ReactElement => {
         </CardBody>
         <CardFooter>
           <Flex justifyContent={"center"} width="100%">
-            <Button onClick={selectSubscription}>Select</Button>
+            <Button onClick={() => props.onSelect(props.details)}>Select</Button>
           </Flex>
         </CardFooter>
       </Card>
