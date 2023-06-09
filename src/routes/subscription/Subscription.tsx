@@ -1,30 +1,8 @@
-import { ReactElement, useCallback, useState } from "react";
-import { WelcomeBox } from "../../components/LandingInfo/WelcomeBox";
-import {
-  SimpleGrid,
-  Card,
-  CardHeader,
-  Heading,
-  CardBody,
-  CardFooter,
-  Button,
-  Text,
-  Flex,
-  List,
-  ListItem,
-  ListIcon,
-  Box,
-  useDisclosure,
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
-  CloseButton,
-} from "@chakra-ui/react";
-import { CheckCircleIcon } from "@chakra-ui/icons";
+import { ReactElement, useState } from "react";
+import { SimpleGrid, Text, Flex, Box, Button } from "@chakra-ui/react";
 import SubscriptionInfo from "../../components/SubscriptionInfo/SubscriptionInfo";
 import { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { SubscriptionApi } from "../../api/SubscriptionApi";
 import { paths } from "../../utils/paths";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
@@ -36,11 +14,11 @@ export enum SubscriptionType {
 }
 
 export type SubscriptionInfoType = {
-  price: number,
-  months: number,
-  type: SubscriptionType,
-  heading: string,
-  description: string,
+  price: number;
+  months: number;
+  type: SubscriptionType;
+  heading: string;
+  description: string;
 };
 
 const subscriptions: SubscriptionInfoType[] = [
@@ -65,12 +43,12 @@ const subscriptions: SubscriptionInfoType[] = [
     heading: "One year",
     description: "Our most basic plan which includes basic price tracking",
   },
-]
+];
 
 const Subscription = (): ReactElement => {
-  const [activeSubscription, setActiveSubscription] = useState<SubscriptionInfoType>(subscriptions[1]);
-
-  const navigate = useNavigate();
+  const [activeSubscription, setActiveSubscription] =
+    useState<SubscriptionInfoType>(subscriptions[1]);
+  const [subscriptionAdded, setSubscriptionAdded] = useState<boolean>(false);
 
   const selectSubsrciprion = (info: SubscriptionInfoType) => {
     setActiveSubscription(info);
@@ -79,7 +57,7 @@ const Subscription = (): ReactElement => {
   const onPaypalTransactionFinished = () => {
     SubscriptionApi.createSubscription(activeSubscription.months)
       .then((response: string) => {
-        navigate(paths.user);
+        setSubscriptionAdded(true);
       })
       .catch((error: Error | AxiosError) => {
         console.log(error.message);
@@ -88,7 +66,12 @@ const Subscription = (): ReactElement => {
 
   return (
     <>
-      <Flex width="100%" alignItems="center" flexDirection={"column"} marginTop={"200px"}>
+      <Flex
+        width="100%"
+        alignItems="center"
+        flexDirection={"column"}
+        marginTop={"50px"}
+      >
         <Text
           mb={10}
           sx={{
@@ -101,31 +84,45 @@ const Subscription = (): ReactElement => {
       </Flex>
       <Flex width="100%" justifyContent="center" flexWrap="wrap">
         <SimpleGrid columns={3} spacing={10}>
-          {
-            subscriptions.map((details) => {
-              return (
-                <SubscriptionInfo
-                  onSelect={selectSubsrciprion}
-                  active={activeSubscription === details}
-                  details={details}
-                  key={details.type}
-                >
-                  <Text>{details.description}</Text>
-                </SubscriptionInfo>
-              )
-            })
-          }
+          {subscriptions.map((details) => {
+            return (
+              <SubscriptionInfo
+                onSelect={selectSubsrciprion}
+                active={activeSubscription === details}
+                details={details}
+                key={details.type}
+              >
+                <Text>{details.description}</Text>
+              </SubscriptionInfo>
+            );
+          })}
         </SimpleGrid>
       </Flex>
-      <Flex width="100%" justifyContent="center" marginTop="100px">
-        <Box minHeight={"200px"} bgColor="#FFFFFF20" width="fit-content" borderRadius={6} paddingX={5} paddingTop={6}>
+      <Flex
+        width="100%"
+        justify="center"
+        align="center"
+        marginTop="100px"
+        direction={"column"}
+        rowGap={8}
+      >
+        <Box
+          minHeight={"200px"}
+          bgColor="#FFFFFF20"
+          width="fit-content"
+          borderRadius={6}
+          paddingX={5}
+          paddingTop={6}
+        >
           <Flex width="100%" justifyContent="center" flexWrap="wrap">
-            <PayPalScriptProvider options={{
-              "client-id": "AXlOjOw1Ri9LNbgkXUhFtGkdMDjgWm-gc4sVz_ZtlA-1Kt_MLMYzutR72tAAp7t7Dor9sK_RLjkCqHii"
-            }}>
+            <PayPalScriptProvider
+              options={{
+                "client-id":
+                  "AXlOjOw1Ri9LNbgkXUhFtGkdMDjgWm-gc4sVz_ZtlA-1Kt_MLMYzutR72tAAp7t7Dor9sK_RLjkCqHii",
+              }}
+            >
               <PayPalButtons
                 createOrder={(data, actions) => {
-                  console.log(activeSubscription.price.toString());
                   return actions.order.create({
                     purchase_units: [
                       {
@@ -138,17 +135,24 @@ const Subscription = (): ReactElement => {
                 }}
                 forceReRender={[activeSubscription]}
                 onApprove={async (data, actions) => {
-                  const details = await actions.order?.capture();
-                  const name = details?.payer.name?.given_name;
-                  alert("Transaction completed by " + name);
                   onPaypalTransactionFinished();
                 }}
               />
             </PayPalScriptProvider>
           </Flex>
         </Box>
+        <Box
+          textAlign={"center"}
+          display={subscriptionAdded ? "block" : "none"}
+        >
+          <Text color={"lightgreen"} mb={5}>
+            Transaction completed
+          </Text>
+          <Link to={paths.user}>
+            <Button>Start using app!</Button>
+          </Link>
+        </Box>
       </Flex>
-
       <Box height="100px" />
     </>
   );

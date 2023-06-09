@@ -7,19 +7,21 @@ import {
   Text,
   Flex,
 } from "@chakra-ui/react";
-import { SubscriptionType, SubscriptionInfoType } from "../../routes/subscription/Subscription";
+import {
+  SubscriptionInfoType,
+} from "../../routes/subscription/Subscription";
 
 const CARD_WIDTH = 300;
 
 type SubscriptionInfoPropsType = {
-  details: SubscriptionInfoType,
+  details: SubscriptionInfoType;
   children: ReactElement;
   onSelect: (info: SubscriptionInfoType) => void;
   active: boolean;
 };
 
 const SubscriptionInfo = (props: SubscriptionInfoPropsType): ReactElement => {
-  const setBackgroundColor = () => props.active ? "#CBD5E0" : "white";
+  const setBackgroundColor = () => (props.active ? "#CBD5E0" : "white");
 
   return (
     <>
@@ -51,7 +53,9 @@ const SubscriptionInfo = (props: SubscriptionInfoPropsType): ReactElement => {
         </CardBody>
         <CardFooter>
           <Flex justifyContent={"center"} width="100%">
-            <Button onClick={() => props.onSelect(props.details)}>Select</Button>
+            <Button onClick={() => props.onSelect(props.details)}>
+              Select
+            </Button>
           </Flex>
         </CardFooter>
       </Card>

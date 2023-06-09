@@ -15,6 +15,8 @@ import { AxiosError } from "axios";
 import Chart from "../../components/Chart/Chart";
 import { SearchIcon } from "@chakra-ui/icons";
 import { Subscription, SubscriptionApi } from "../../api/SubscriptionApi";
+import { paths } from "../../utils/paths";
+import { useNavigate } from "react-router-dom";
 
 type Item = {
   id: number;
@@ -30,6 +32,7 @@ const UserHome = (): ReactElement => {
   });
   const [searchPhrase, setSearchPhrase] = useState<string>("");
   const [subscriptionEndDate, setSubscriptionEndDate] = useState<Date>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     ItemsApi.getAllItems()
@@ -55,6 +58,11 @@ const UserHome = (): ReactElement => {
   useEffect(() => {
     SubscriptionApi.getSubscription()
       .then((subscription: Subscription) => {
+        if (subscription === null) {
+          // SHOULDN'T HAPPEN BUT LET'S HANDLE IT
+          navigate(paths.subscription);
+          return;
+        }
         setSubscriptionEndDate(subscription.end_date);
       })
       .catch((error: Error | AxiosError) => {
