@@ -90,6 +90,14 @@ const Chart = ({ item, unfollowItem }: Props): ReactElement => {
         text: item.name.toUpperCase(),
       },
     },
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: "PLN"
+        }
+      },
+    },
   };
 
   return data.datasets === null ? (
