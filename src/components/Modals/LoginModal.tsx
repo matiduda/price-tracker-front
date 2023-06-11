@@ -71,6 +71,7 @@ const LoginModal = (): ReactElement => {
       const accessToken = params.get("access_token");
       if (accessToken) {
         axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
+        localStorage.setItem("token", accessToken);
         authContext.setAuthenticated(true);
         SubscriptionApi.getSubscription()
           .then((subscription: Subscription) => {
