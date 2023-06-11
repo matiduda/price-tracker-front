@@ -12,7 +12,7 @@ import {
   Alert,
   AlertTitle,
 } from "@chakra-ui/react";
-import { ReactElement, useContext, useState } from "react";
+import { ReactElement, useContext, useState, useEffect } from "react";
 import { AuthApi, AuthContext, LoginResponse } from "../../api/AuthApi";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
@@ -51,12 +51,40 @@ const LoginModal = (): ReactElement => {
       });
   };
 
+  const handleGoogleLogin = () => {
+    const link = document.createElement("a");
+    link.href = "http://127.0.0.1:8000/auth/google_signin/";
+    //link.target = "_blank"; // Opens the URL in a new tab/window
+    link.click();
+  };
+
   const handleClose = () => {
     setUsername("");
     setPassword("");
     setError("");
     onClose();
   };
+
+  useEffect(() => {
+    const checkAccessToken = () => {
+      const params = new URLSearchParams(window.location.search);
+      const accessToken = params.get("access_token");
+      if (accessToken) {
+        axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
+        authContext.setAuthenticated(true);
+        SubscriptionApi.getSubscription()
+          .then((subscription: Subscription) => {
+            navigate(subscription === null ? paths.subscription : paths.user);
+          })
+          .catch((error: Error | AxiosError) => {
+            if (axios.isAxiosError(error)) {
+              setError("Error while fetching subscription info");
+            }
+          });
+      }
+    };
+    checkAccessToken();
+  }, []);
 
   return (
     <>
@@ -92,6 +120,9 @@ const LoginModal = (): ReactElement => {
             </Button>
             <Button onClick={handleClose}>Cancel</Button>
           </ModalFooter>
+            <Button onClick={handleGoogleLogin} width={"fit-content"} mx={"auto"} my={4} p={2}>
+              Continue with Google
+            </Button>
         </ModalContent>
       </Modal>
     </>
